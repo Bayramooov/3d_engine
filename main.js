@@ -56,37 +56,38 @@ function multMatrixVector(matrix, vector) {
 var start = Date.now();
 var count = 0;
 
-var scale = 10;
-// canvas.addEventListener('wheel', event => {
-// 	event.preventDefault();
-// 	scale += event.deltaY/25;
-// 	if (scale < 20) scale = 20;
-// 	else if (scale > 400) scale = 400;
-// });
+var scale = 40;
 
-var angle = 0;
-// var angleX = 0;
-// var angleY = 0;
+canvas.addEventListener('wheel', event => {
+	event.preventDefault();
+	scale += event.deltaY/25;
+	if (scale < 20) scale = 20;
+	else if (scale > 400) scale = 400;
+});
+
+// var angle = 0;
+var angleX = 0;
+var angleY = 0;
 // var angleZ = 0;
-// var initMousePos = {};
+var initMousePos = {};
 
-// var mousedown = false;
-// canvas.addEventListener('mousedown', event => {
-// 	initMousePos.x = event.offsetX;
-// 	initMousePos.y = event.offsetY;
-// 	mousedown = true;
-// });
+var mousedown = false;
+canvas.addEventListener('mousedown', event => {
+	initMousePos.x = event.offsetX;
+	initMousePos.y = event.offsetY;
+	mousedown = true;
+});
 
-// canvas.addEventListener('mouseup', event => {
-// 	mousedown = false;
-// });
+canvas.addEventListener('mouseup', event => {
+	mousedown = false;
+});
 
-// canvas.addEventListener('mousemove', event => {
-// 	if (mousedown) {
-// 		angleX += (initMousePos.y - event.offsetY) * 0.01;
-// 		angleY += (initMousePos.x - event.offsetX) * 0.01;
-// 	}
-// });
+canvas.addEventListener('mousemove', event => {
+	if (mousedown) {
+		angleX += (initMousePos.y - event.offsetY) * 0.01;
+		angleY += (initMousePos.x - event.offsetX) * 0.01;
+	}
+});
 
 vCamera = [0, 0, 0];
 
@@ -99,105 +100,105 @@ function animate() {
   c.clearRect(0, 0, vw, vh);
 
 
-  var meshCube = [
-
-    // SOUTH
-    [ [-0.5, -0.5, -0.5],  [-0.5, 0.5, -0.5],  [0.5, 0.5, -0.5] ],
-    [ [-0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, -0.5, -0.5] ],
-
-    // EAST
-    [ [0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, 0.5, 0.5] ],
-    [ [0.5, -0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, -0.5, 0.5] ],
-
-    // NORTH
-    [ [0.5, -0.5, 0.5],  [0.5, 0.5, 0.5],  [-0.5, 0.5, 0.5] ],
-    [ [0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, -0.5, 0.5] ],
-
-    // WEST
-    [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, 0.5, -0.5] ],
-    [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, -0.5],  [-0.5, -0.5, -0.5] ],
-
-    // TOP
-    [ [-0.5, 0.5, -0.5],  [-0.5, 0.5, 0.5],  [0.5, 0.5, 0.5] ],
-    [ [-0.5, 0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, 0.5, -0.5] ],
-
-    // BOTTOM
-    [ [0.5, -0.5, 0.5],  [-0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5] ],
-    [ [0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5],  [0.5, -0.5, -0.5] ]
-
-  ];
-
   // var meshCube = [
 
   //   // SOUTH
-  //   [ [-2, -2, 2],  [0, 3, 0],  [2, -2, 2] ],
+  //   [ [-0.5, -0.5, -0.5],  [-0.5, 0.5, -0.5],  [0.5, 0.5, -0.5] ],
+  //   [ [-0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, -0.5, -0.5] ],
 
   //   // EAST
-  //   [ [2, -2, 2],  [0, 3, 0],  [2, -2, -2] ],
+  //   [ [0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, 0.5, 0.5] ],
+  //   [ [0.5, -0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, -0.5, 0.5] ],
 
   //   // NORTH
-  //   [ [2, -2, -2],  [0, 3, 0],  [-2, -2, -2] ],
+  //   [ [0.5, -0.5, 0.5],  [0.5, 0.5, 0.5],  [-0.5, 0.5, 0.5] ],
+  //   [ [0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, -0.5, 0.5] ],
 
   //   // WEST
-  //   [ [-2, -2, -2],  [0, 3, 0],  [-2, -2, 2] ],
+  //   [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, 0.5, -0.5] ],
+  //   [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, -0.5],  [-0.5, -0.5, -0.5] ],
+
+  //   // TOP
+  //   [ [-0.5, 0.5, -0.5],  [-0.5, 0.5, 0.5],  [0.5, 0.5, 0.5] ],
+  //   [ [-0.5, 0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, 0.5, -0.5] ],
 
   //   // BOTTOM
-  //   [ [2, -2, -2],  [-2, -2, -2],  [-2, -2, 2] ],
-  //   [ [2, -2, -2],  [-2, -2, 2],  [2, -2, 2] ]
+  //   [ [0.5, -0.5, 0.5],  [-0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5] ],
+  //   [ [0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5],  [0.5, -0.5, -0.5] ]
 
   // ];
 
-  angle += .5;
+  var meshCube = [
 
-  var matRotX = [
-    [ 1, 0, 0, 0 ],
+    // SOUTH
+    [ [-2, -2, 2],  [0, 3, 0],  [2, -2, 2] ],
 
-    [ 0, Math.cos((angle/180) * Math.PI * 1), Math.sin((angle/180) * Math.PI * 1), 0, 0 ],
+    // EAST
+    [ [2, -2, 2],  [0, 3, 0],  [2, -2, -2] ],
 
-    [ 0, -Math.sin((angle/180) * Math.PI * 1), Math.cos((angle/180) * Math.PI * 1), 0 ],
+    // NORTH
+    [ [2, -2, -2],  [0, 3, 0],  [-2, -2, -2] ],
 
-    [ 0, 0, 0, 1 ]
+    // WEST
+    [ [-2, -2, -2],  [0, 3, 0],  [-2, -2, 2] ],
+
+    // BOTTOM
+    [ [2, -2, -2],  [-2, -2, -2],  [-2, -2, 2] ],
+    [ [2, -2, -2],  [-2, -2, 2],  [2, -2, 2] ]
+
   ];
 
-  var matRotY = [
-    [ Math.cos((angle/180) * Math.PI * 1.5), 0, Math.sin((angle/180) * Math.PI * 1.5), 0 ],
-
-    [ 0, 1, 0, 0, 0 ],
-
-    [ -Math.sin((angle/180) * Math.PI * 1.5), 0, Math.cos((angle/180) * Math.PI * 1.5), 0 ],
-
-    [ 0, 0, 0, 1 ]
-  ];
-
-  var matRotZ = [
-    [ Math.cos((angle/180) * Math.PI), Math.sin((angle/180) * Math.PI), 0, 0 ],
-
-    [ -Math.sin((angle/180) * Math.PI), Math.cos((angle/180) * Math.PI), 0, 0 ],
-
-    [ 0, 0, 1, 0 ],
-
-    [ 0, 0, 0, 1 ]
-  ];
-
-  // var matRotY = [
-  //   [ Math.cos((angleY/180) * Math.PI * 1.5), 0, Math.sin((angleY/180) * Math.PI * 1.5), 0 ],
-
-  //   [ 0, 1, 0, 0, 0 ],
-
-  //   [ -Math.sin((angleY/180) * Math.PI * 1.5), 0, Math.cos((angleY/180) * Math.PI * 1.5), 0 ],
-
-  //   [ 0, 0, 0, 1 ]
-  // ];
+  // angle += .5;
 
   // var matRotX = [
   //   [ 1, 0, 0, 0 ],
 
-  //   [ 0, Math.cos((angleX/180) * Math.PI * 1), Math.sin((angleX/180) * Math.PI * 1), 0, 0 ],
+  //   [ 0, Math.cos((angle/180) * Math.PI * 1), Math.sin((angle/180) * Math.PI * 1), 0, 0 ],
 
-  //   [ 0, -Math.sin((angleX/180) * Math.PI * 1), Math.cos((angleX/180) * Math.PI * 1), 0 ],
+  //   [ 0, -Math.sin((angle/180) * Math.PI * 1), Math.cos((angle/180) * Math.PI * 1), 0 ],
 
   //   [ 0, 0, 0, 1 ]
   // ];
+
+  // var matRotY = [
+  //   [ Math.cos((angle/180) * Math.PI * 1.5), 0, Math.sin((angle/180) * Math.PI * 1.5), 0 ],
+
+  //   [ 0, 1, 0, 0, 0 ],
+
+  //   [ -Math.sin((angle/180) * Math.PI * 1.5), 0, Math.cos((angle/180) * Math.PI * 1.5), 0 ],
+
+  //   [ 0, 0, 0, 1 ]
+  // ];
+
+  // var matRotZ = [
+  //   [ Math.cos((angle/180) * Math.PI), Math.sin((angle/180) * Math.PI), 0, 0 ],
+
+  //   [ -Math.sin((angle/180) * Math.PI), Math.cos((angle/180) * Math.PI), 0, 0 ],
+
+  //   [ 0, 0, 1, 0 ],
+
+  //   [ 0, 0, 0, 1 ]
+  // ];
+
+  var matRotY = [
+    [ Math.cos((angleY/180) * Math.PI * 1.5), 0, Math.sin((angleY/180) * Math.PI * 1.5), 0 ],
+
+    [ 0, 1, 0, 0, 0 ],
+
+    [ -Math.sin((angleY/180) * Math.PI * 1.5), 0, Math.cos((angleY/180) * Math.PI * 1.5), 0 ],
+
+    [ 0, 0, 0, 1 ]
+  ];
+
+  var matRotX = [
+    [ 1, 0, 0, 0 ],
+
+    [ 0, Math.cos((angleX/180) * Math.PI * 1), Math.sin((angleX/180) * Math.PI * 1), 0, 0 ],
+
+    [ 0, -Math.sin((angleX/180) * Math.PI * 1), Math.cos((angleX/180) * Math.PI * 1), 0 ],
+
+    [ 0, 0, 0, 1 ]
+  ];
 
   for (tri of meshCube) {
     var triProjected = [[], [], []];
@@ -213,9 +214,9 @@ function animate() {
     tri[2] = multMatrixVector(matRotY, tri[2]);
 
     // Rotate in Z-Axis
-    tri[0] = multMatrixVector(matRotZ, tri[0]);
-    tri[1] = multMatrixVector(matRotZ, tri[1]);
-    tri[2] = multMatrixVector(matRotZ, tri[2]);
+    // tri[0] = multMatrixVector(matRotZ, tri[0]);
+    // tri[1] = multMatrixVector(matRotZ, tri[1]);
+    // tri[2] = multMatrixVector(matRotZ, tri[2]);
 
     // Offset into the screen
     tri[0][2] += scale;
@@ -245,11 +246,9 @@ function animate() {
     var length = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
     normal[0] /= length; normal[1] /= length; normal[2] /= length;
 
-    var visible;
-
-    visible = normal[0] * (tri[0][0] - vCamera[0]) +
-              normal[1] * (tri[0][1] - vCamera[1]) +
-              normal[2] * (tri[0][2] - vCamera[2]) < 0;
+    var visible = normal[0] * (tri[0][0] - vCamera[0]) +
+                  normal[1] * (tri[0][1] - vCamera[1]) +
+                  normal[2] * (tri[0][2] - vCamera[2]) < 0;
     
     if (!visible) continue;
 
@@ -293,7 +292,7 @@ function animate() {
 
   }
 
-  if (angle > 720) angle = 0;
+  // if (angle > 720) angle = 0;
 
   if (now - start > 1000) {
     fps.innerText = `${count} fps`;
