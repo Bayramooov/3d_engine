@@ -3,6 +3,7 @@ body {
     width: 100%;
     padding: 0;
     margin: 0;
+    background-color: #1a1a1a;
 }
 
 #fps {
@@ -13,6 +14,7 @@ body {
     font-size: 1.3rem;
     font-family: helvetica;
     user-select: none;
+    color: white;
 }
 
 canvas {

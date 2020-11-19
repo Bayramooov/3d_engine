@@ -57,6 +57,7 @@ var start = Date.now();
 var count = 0;
 
 var scale = 40;
+
 canvas.addEventListener('wheel', event => {
 	event.preventDefault();
 	scale += event.deltaY/25;
@@ -88,6 +89,8 @@ canvas.addEventListener('mousemove', event => {
 	}
 });
 
+vCamera = [0, 0, 0];
+
 function animate() {
   window.requestAnimationFrame(animate);
 
@@ -100,28 +103,28 @@ function animate() {
   // var meshCube = [
 
   //   // SOUTH
-  //   [ [1, 0, 0],  [0, 1, 0],  [1, 1, 0] ],
-  //   [ [0, 0, 0],  [1, 1, 0],  [1, 0, 0] ],
+  //   [ [-0.5, -0.5, -0.5],  [-0.5, 0.5, -0.5],  [0.5, 0.5, -0.5] ],
+  //   [ [-0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, -0.5, -0.5] ],
 
   //   // EAST
-  //   [ [1, 0, 0],  [1, 1, 0],  [1, 1, 1] ],
-  //   [ [1, 0, 0],  [1, 1, 1],  [1, 0, 1] ],
+  //   [ [0.5, -0.5, -0.5],  [0.5, 0.5, -0.5],  [0.5, 0.5, 0.5] ],
+  //   [ [0.5, -0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, -0.5, 0.5] ],
 
   //   // NORTH
-  //   [ [1, 0, 1],  [1, 1, 1],  [0, 1, 1] ],
-  //   [ [1, 0, 1],  [0, 1, 1],  [0, 0, 1] ],
+  //   [ [0.5, -0.5, 0.5],  [0.5, 0.5, 0.5],  [-0.5, 0.5, 0.5] ],
+  //   [ [0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, -0.5, 0.5] ],
 
   //   // WEST
-  //   [ [0, 0, 1],  [0, 1, 1],  [0, 1, 0] ],
-  //   [ [0, 0, 1],  [0, 1, 0],  [0, 0, 0] ],
+  //   [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, 0.5],  [-0.5, 0.5, -0.5] ],
+  //   [ [-0.5, -0.5, 0.5],  [-0.5, 0.5, -0.5],  [-0.5, -0.5, -0.5] ],
 
   //   // TOP
-  //   [ [0, 1, 0],  [0, 1, 1],  [1, 1, 1] ],
-  //   [ [0, 1, 0],  [1, 1, 1],  [1, 1, 0] ],
+  //   [ [-0.5, 0.5, -0.5],  [-0.5, 0.5, 0.5],  [0.5, 0.5, 0.5] ],
+  //   [ [-0.5, 0.5, -0.5],  [0.5, 0.5, 0.5],  [0.5, 0.5, -0.5] ],
 
   //   // BOTTOM
-  //   [ [1, 0, 1],  [0, 0, 1],  [0, 0, 0] ],
-  //   [ [1, 0, 1],  [0, 0, 0],  [1, 0, 0] ]
+  //   [ [0.5, -0.5, 0.5],  [-0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5] ],
+  //   [ [0.5, -0.5, 0.5],  [-0.5, -0.5, -0.5],  [0.5, -0.5, -0.5] ]
 
   // ];
 
@@ -140,19 +143,19 @@ function animate() {
     [ [-2, -2, -2],  [0, 3, 0],  [-2, -2, 2] ],
 
     // BOTTOM
-    [ [-2, -2, 2],  [-2, -2, -2],  [2, -2, -2] ],
-    [ [-2, -2, 2],  [2, -2, -2],  [2, -2, 2] ]
+    [ [2, -2, -2],  [-2, -2, -2],  [-2, -2, 2] ],
+    [ [2, -2, -2],  [-2, -2, 2],  [2, -2, 2] ]
 
   ];
 
-  // angle += 2;
+  // angle += .5;
 
-  // var matRotZ = [
-  //   [ Math.cos((angle/180) * Math.PI), Math.sin((angle/180) * Math.PI), 0, 0 ],
+  // var matRotX = [
+  //   [ 1, 0, 0, 0 ],
 
-  //   [ -Math.sin((angle/180) * Math.PI), Math.cos((angle/180) * Math.PI), 0, 0 ],
+  //   [ 0, Math.cos((angle/180) * Math.PI * 1), Math.sin((angle/180) * Math.PI * 1), 0, 0 ],
 
-  //   [ 0, 0, 1, 0 ],
+  //   [ 0, -Math.sin((angle/180) * Math.PI * 1), Math.cos((angle/180) * Math.PI * 1), 0 ],
 
   //   [ 0, 0, 0, 1 ]
   // ];
@@ -163,16 +166,6 @@ function animate() {
   //   [ 0, 1, 0, 0, 0 ],
 
   //   [ -Math.sin((angle/180) * Math.PI * 1.5), 0, Math.cos((angle/180) * Math.PI * 1.5), 0 ],
-
-  //   [ 0, 0, 0, 1 ]
-  // ];
-
-  // var matRotX = [
-  //   [ 1, 0, 0, 0 ],
-
-  //   [ 0, Math.cos((angle/180) * Math.PI * 1), Math.sin((angle/180) * Math.PI * 1), 0, 0 ],
-
-  //   [ 0, -Math.sin((angle/180) * Math.PI * 1), Math.cos((angle/180) * Math.PI * 1), 0 ],
 
   //   [ 0, 0, 0, 1 ]
   // ];
@@ -207,27 +200,69 @@ function animate() {
     [ 0, 0, 0, 1 ]
   ];
 
-
-
   for (tri of meshCube) {
     var triProjected = [[], [], []];
 
-    // tri[0] = multMatrixVector(matRotZ, tri[0]);
-    // tri[1] = multMatrixVector(matRotZ, tri[1]);
-    // tri[2] = multMatrixVector(matRotZ, tri[2]);
-
+    // Rotate in X-Axis
     tri[0] = multMatrixVector(matRotX, tri[0]);
     tri[1] = multMatrixVector(matRotX, tri[1]);
     tri[2] = multMatrixVector(matRotX, tri[2]);
 
+    // Rotate in Y-Axis
     tri[0] = multMatrixVector(matRotY, tri[0]);
     tri[1] = multMatrixVector(matRotY, tri[1]);
     tri[2] = multMatrixVector(matRotY, tri[2]);
 
+    // Rotate in Z-Axis
+    // tri[0] = multMatrixVector(matRotZ, tri[0]);
+    // tri[1] = multMatrixVector(matRotZ, tri[1]);
+    // tri[2] = multMatrixVector(matRotZ, tri[2]);
+
+    // Offset into the screen
     tri[0][2] += scale;
     tri[1][2] += scale;
     tri[2][2] += scale;
 
+
+    var normal = [];
+    var line1 = [];
+    var line2 = [];
+
+    // line1
+    line1[0] = tri[1][0] - tri[0][0];
+    line1[1] = tri[1][1] - tri[0][1];
+    line1[2] = tri[1][2] - tri[0][2];
+
+    // line2
+    line2[0] = tri[2][0] - tri[0][0];
+    line2[1] = tri[2][1] - tri[0][1];
+    line2[2] = tri[2][2] - tri[0][2];
+
+    // normal
+    normal[0] = line1[1] * line2[2] - line1[2] * line2[1];
+    normal[1] = line1[2] * line2[0] - line1[0] * line2[2];
+    normal[2] = line1[0] * line2[1] - line1[1] * line2[0];
+
+    var length = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+    normal[0] /= length; normal[1] /= length; normal[2] /= length;
+
+    var visible = normal[0] * (tri[0][0] - vCamera[0]) +
+                  normal[1] * (tri[0][1] - vCamera[1]) +
+                  normal[2] * (tri[0][2] - vCamera[2]) < 0;
+    
+    if (!visible) continue;
+
+    // Illumination
+    var lightDirection = [0, 0, -1];
+    length = Math.sqrt(lightDirection[0] * lightDirection[0] + lightDirection[1] * lightDirection[1] + lightDirection[2] * lightDirection[2]);
+    lightDirection[0] /= length; lightDirection[1] /= length; lightDirection[2] /= length;
+    
+    // Dot product between normal and lightDirection
+    var dotProduct = normal[0] * lightDirection[0] + normal[1] * lightDirection[1] + normal[2] * lightDirection[2];
+
+    // console.log('dotProduct', dotProduct);
+    
+    // Project triangles from 3D --> 2D
     triProjected = [
       multMatrixVector(matrix, tri[0]),
       multMatrixVector(matrix, tri[1]),
@@ -249,12 +284,15 @@ function animate() {
     c.lineTo(triProjected[2][0], triProjected[2][1]);
     c.lineTo(triProjected[0][0], triProjected[0][1]);
     c.closePath();
-    c.stroke();
+    c.fillStyle = `rgba(255, 230, 170, ${Math.abs(dotProduct * 0.9)})`;
+    // c.fillStyle = `white`;
+    c.fill();
+    // c.strokeStyle = 'white';
+    // c.stroke();
 
   }
 
   // if (angle > 720) angle = 0;
-
 
   if (now - start > 1000) {
     fps.innerText = `${count} fps`;
