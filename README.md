@@ -1,1 +1,1 @@
-## <a href="https://www.3d.techieland.uz/"><b>3d.techieland.uz</b></a>
+## <a href="https://bayramooov.github.io/3d_engine/"><b>Bayramooov.github.io/3d_engine/</b></a>
