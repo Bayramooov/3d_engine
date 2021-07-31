@@ -84,8 +84,8 @@ canvas.addEventListener('mouseup', event => {
 
 canvas.addEventListener('mousemove', event => {
 	if (mousedown) {
-		angleX += (initMousePos.y - event.offsetY) * 0.01;
-		angleY += (initMousePos.x - event.offsetX) * 0.01;
+		angleX -= (initMousePos.y - event.offsetY) * 0.01;
+		angleY -= (initMousePos.x - event.offsetX) * 0.01;
 	}
 });
 
