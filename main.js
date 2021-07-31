@@ -250,7 +250,7 @@ function animate() {
                   normal[1] * (tri[0][1] - vCamera[1]) +
                   normal[2] * (tri[0][2] - vCamera[2]) < 0;
     
-    if (!visible) continue;
+    if (visible) continue;
 
     // Illumination
     var lightDirection = [0, 0, -1];
